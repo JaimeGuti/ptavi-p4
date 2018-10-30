@@ -11,7 +11,7 @@ import sys
 PORT = int(sys.argv[1])
 
 
-class EchoHandler(socketserver.DatagramRequestHandler):
+class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     """
     Echo server class
     """
