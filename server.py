@@ -15,22 +15,22 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     """
     Echo server class
     """
+    clients = {}
 
     def handle(self):
-        """
-        handle method of the server class
-        (all requests will be handled by this method)
-        """
-        self.wfile.write(b"Hemos recibido tu peticion")
-        INFO = str(self.client_address)
 
-        for line in self.rfile:
-            print("El cliente " + INFO + " nos manda ", line.decode('utf-8'))
+        self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
+        line = self.rfile.read()
+        if line.decode('utf-8').split(' ')[0] == 'REGISTER':
+            name_client = line.decode('utf-8').split(' ')[1][4:]
+            self.clients[name_client] = self.client_address[0]
+        print(line.decode('utf-8'))
+        print(self.clients)
 
 if __name__ == "__main__":
     # Listens at localhost ('') port 6001
-    # and calls the EchoHandler class to manage the request
-    serv = socketserver.UDPServer(('', PORT), EchoHandler)
+    # and calls the SIPRegisterHandler class to manage the request
+    serv = socketserver.UDPServer(('', PORT), SIPRegisterHandler)
 
     print("Lanzando servidor UDP de eco...")
     try:
