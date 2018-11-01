@@ -21,6 +21,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
 
     def handle(self):
 
+        self.json2registered()
         self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
         line = self.rfile.read()
         exp = float(line.decode('utf-8').split()[-1])
@@ -42,6 +43,13 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     def register2json(self):
         json_file = open('registered.json', 'w')
         json.dump(self.clients, json_file)
+
+    def json2registered(self):
+        try:
+            json_file = open('registered.json')
+            self.clients = json.load(json_file)
+        except:
+            self.register2json()
 
 
 if __name__ == "__main__":
