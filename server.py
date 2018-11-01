@@ -24,7 +24,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
         line = self.rfile.read()
         exp = float(line.decode('utf-8').split()[-1])
-        tm = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time() + exp))
+        tm = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + exp))
         info = {"address": self.client_address[0], "expires": tm}
         if line.decode('utf-8').split(' ')[0] == 'REGISTER':
             name_client = line.decode('utf-8').split(' ')[1][4:]
