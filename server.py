@@ -25,10 +25,10 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             name_client = line.decode('utf-8').split(' ')[1][4:]
             self.clients[name_client] = self.client_address[0]
             if line.decode('utf-8').split(' ')[3][-1] == 'Expires':
-                expires = (line.decode('utf-8').split(' ')[-1])
-                if expires == 0:
+                expires = int(line.decode('utf-8').split(' ')[5])
+                if str(expires) == '0':
                     del self.clientes[name_client]
-                    print("OK")
+                    print(b"SIP/2.0 200 OK\r\n\r\n")
 
         print(line.decode('utf-8'))
         print(self.clients)

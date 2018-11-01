@@ -24,7 +24,6 @@ try:
         Ex = bytes(EXPIRES, 'utf-8')
         Send_1 = Rg + b' sip:' + Ln + b' SIP/2.0\r\n\r\n'
         my_socket.send(Send_1 + b'Expires: ' + Ex + b'\r\n\r\n')
-        #my_socket.send()
         data = my_socket.recv(1024)
         print('Recibido -- ', data.decode('utf-8'))
         print("Socket terminado.")
