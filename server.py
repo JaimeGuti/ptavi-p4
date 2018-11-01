@@ -24,8 +24,9 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         self.json2registered()
         self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
         line = self.rfile.read()
-        exp = float(line.decode('utf-8').split()[-1])
-        tm = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() + exp))
+        time_exp = float(line.decode('utf-8').split()[-1])
+        total_time = time.localtime(time.time() + time_exp)
+        tm = time.strftime('%Y-%m-%d %H:%M:%S', total_time)
         info = {"address": self.client_address[0], "expires": tm}
         if line.decode('utf-8').split(' ')[0] == 'REGISTER':
             name_client = line.decode('utf-8').split(' ')[1][4:]
@@ -51,7 +52,6 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             self.clients = json.load(json_file)
         except:
             self.register2json()
-
 
 if __name__ == "__main__":
     # Listens at localhost ('') port 6001
