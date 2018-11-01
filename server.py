@@ -36,15 +36,16 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 if str(expires) == '0':
                     del self.clients[name_client]
                     print(b"SIP/2.0 200 OK\r\n\r\n")
-
         print(line.decode('utf-8'))
         print(self.clients)
 
     def register2json(self):
+        # Creación del fichero .json
         json_file = open('registered.json', 'w')
         json.dump(self.clients, json_file)
 
     def json2registered(self):
+        # Comprobación del fichero .json
         try:
             json_file = open('registered.json')
             self.clients = json.load(json_file)
